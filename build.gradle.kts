@@ -1,11 +1,3 @@
-apply(from = "versions.gradle.kts")
-
-val kotlinVersion: String by extra
-val junitVersion: String by extra
-val jetBrainsAnnotationsVersion: String by extra
-val assertjVersion: String by extra
-val mockitoVersion: String by extra
-
 buildscript {
     repositories {
         maven("https://plugins.gradle.org/m2/")
@@ -19,6 +11,11 @@ plugins {
     base
     `kotlin-dsl`
     kotlin("jvm") version "1.4.20" apply false
+}
+
+tasks.wrapper {
+    gradleVersion = "7.2"
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 allprojects {
@@ -66,10 +63,10 @@ subprojects {
     tasks.check { dependsOn(integrationTest) }
 
     dependencies {
-        implementation("org.jetbrains:annotations:$jetBrainsAnnotationsVersion")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-        testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
-        testImplementation("org.assertj:assertj-core:$assertjVersion")
+        implementation("org.jetbrains:annotations:${Versions.kotlin}")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.Tests.junit}")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.Tests.junit}")
+        testImplementation("org.junit.jupiter:junit-jupiter-params:${Versions.Tests.junit}")
+        testImplementation("org.assertj:assertj-core:${Versions.Tests.assertjVersion}")
     }
 }
